@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line
@@ -6,6 +6,7 @@ import {
 import { fetchSummaryData } from '../services/api';
 import ChartCard from '../components/ChartCard';
 import CustomSelect from '../components/CustomSelect';
+import { ThemeContext } from '../context/ThemeContext';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A2D9D9'];
 
@@ -22,6 +23,16 @@ export default function Dashboard() {
   const [selectedInscricoesFilter, setSelectedInscricoesFilter] = useState('Total');
   const [selectedDistribuicao, setSelectedDistribuicao] = useState('IPTU');
   const [loading, setLoading] = useState(true);
+
+  const { theme } = useContext(ThemeContext);
+  const isDarkMode = theme === 'dark';
+  const axisColor = isDarkMode ? '#e2e8f0' : '#475569';
+  const legendColor = isDarkMode ? '#e2e8f0' : '#475569';
+  const tooltipStyle = {
+    backgroundColor: isDarkMode ? '#1e293b' : '#ffffff',
+    border: `1px solid ${isDarkMode ? '#475569' : '#e2e8f0'}`,
+    color: isDarkMode ? '#e2e8f0' : '#1e293b',
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -43,14 +54,16 @@ export default function Dashboard() {
   }, [selectedInscricoesFilter]);
 
   if (loading) {
-    return <div className="text-center mt-20 text-slate-500">Carregando dados do dashboard...</div>;
+    return <div className="text-center mt-20 text-slate-500 dark:text-gray-400">Carregando dados do dashboard...</div>;
   }
 
   const distribuicaoChartData = distribuicaoData.find(d => d.name === selectedDistribuicao);
 
   return (
-    <div className="space-y-8">
-      <h2 className="text-3xl font-bold text-slate-800 mb-6">Visão Geral</h2>
+    <div className="space-y-8 p-6 transition-colors">
+      <h2 className={`text-3xl font-bold mb-6 ${theme === 'dark' ? 'text-gray-100' : 'text-black'}`}>
+        Visão Geral
+      </h2>
 
       <div className="grid grid-cols-1">
         <ChartCard
@@ -68,14 +81,16 @@ export default function Dashboard() {
         >
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={inscricoesData}>
-              <XAxis dataKey="ano" />
+              <XAxis dataKey="ano" stroke={axisColor} />
               <YAxis
+                stroke={axisColor}
                 tickFormatter={(value) => Intl.NumberFormat('pt-BR', { notation: 'compact', maximumFractionDigits: 1 }).format(value)}
               />
               <Tooltip
-                formatter={(value) => `Quantidade: ${value.toLocaleString('pt-BR')}`}
+                formatter={(value) => [`Quantidade: ${value.toLocaleString('pt-BR')}`]}
+                contentStyle={tooltipStyle}
               />
-              <Legend />
+              <Legend wrapperStyle={{ color: legendColor }} />
               <Line type="monotone" dataKey="Quantidade" stroke="#8884d8" name="Inscrições" />
             </LineChart>
           </ResponsiveContainer>
@@ -91,12 +106,15 @@ export default function Dashboard() {
                 angle={-45}
                 textAnchor="end"
                 height={70}
+                stroke={axisColor}
               />
               <YAxis
+                stroke={axisColor}
                 tickFormatter={(value) => Intl.NumberFormat('pt-BR', { notation: 'compact', maximumFractionDigits: 1 }).format(value)}
               />
               <Tooltip
-                formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                formatter={(value) => [`R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`]}
+                contentStyle={tooltipStyle}
               />
               <Bar dataKey="Saldo" fill="#82ca9d" name="Saldo Total" />
             </BarChart>
@@ -129,8 +147,8 @@ export default function Dashboard() {
                     <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Tooltip contentStyle={tooltipStyle} />
+                <Legend wrapperStyle={{ color: legendColor }} />
               </PieChart>
             </ResponsiveContainer>
           )}

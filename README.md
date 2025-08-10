@@ -9,19 +9,6 @@ O Dash App é uma aplicação web de painel de controle projetada para exibir an
 -   **Frontend (React)**: A interface do usuário, construída com React e estilizada com Tailwind CSS. Utiliza a biblioteca Recharts para a visualização dos dados em gráficos dinâmicos.
 -   **Backend (Python/FastAPI)**: Uma API RESTful que serve os dados para o frontend. O servidor é executado com Uvicorn.
 
-## Estrutura de Pastas Frontend
-
-├── src/
-│   ├── components/       # Componentes React reutilizáveis (Header, Sidebar, ChartCard)
-│   ├── services/         # Funções para chamadas de API
-│   ├── pages/            # Páginas da aplicação (Reports, Settings, CdaSearch, etc.)
-│   ├── App.js            # Componente principal da aplicação
-│   ├── index.js          # Ponto de entrada do React
-│   └── ...
-├── public/
-│   └── index.html        # Arquivo HTML principal
-└── README.md
-
 ## Tecnologias Utilizadas
 
 -   **Frontend**: React.js, React Router, Recharts, Tailwind CSS, Material-UI Icons
@@ -103,4 +90,5 @@ Com ambos os servidores (backend e frontend) rodando, você pode acessar a aplic
 
 -   **Navegação Dinâmica**: A barra lateral (Sidebar) pode ser expandida e contraída para otimizar o espaço da tela.
 -   **Relatórios Interativos**: A página de relatórios exibe gráficos de barra, linha e pizza com animações e tooltips, tornando a visualização de dados mais envolvente.
+-   **Configurações**: Página de Configurações que perfine alternar entre o modo escuro/claro, selecionar notificações do Site, configurar o perfil. 
 -   **Menu de Perfil**: O cabeçalho inclui um ícone de perfil clicável que exibe um menu suspenso com opções como "Editar Perfil" e "Sair".

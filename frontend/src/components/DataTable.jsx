@@ -1,35 +1,56 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import { ThemeContext } from '../context/ThemeContext';
 
-export default function DataTable({ columns = [], data = [], title }) {
+export default function DataTable({ columns, data }) {
+  const { theme } = useContext(ThemeContext);
+
+  const isDarkMode = theme === 'dark';
+
+  const headerBgColor = isDarkMode ? 'bg-slate-700' : 'bg-gray-100';
+  const headerTextColor = isDarkMode ? 'text-gray-100' : 'text-gray-600';
+  const rowBgColor = isDarkMode ? 'bg-slate-800' : 'bg-white';
+  const rowTextColor = isDarkMode ? 'text-gray-300' : 'text-gray-800';
+  const rowHoverBgColor = isDarkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-50';
+
   return (
-    <div className="bg-white rounded-xl shadow overflow-hidden">
-      {title && (
-        <h3 className="p-6 text-base font-semibold text-slate-700">{title}</h3>
-      )}
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-left divide-y divide-slate-200">
-          <thead className="bg-slate-50">
+    <div className="overflow-x-auto shadow-lg rounded-xl">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+        <thead className={headerBgColor}>
+          <tr>
+            {columns.map(column => (
+              <th
+                key={column.key}
+                scope="col"
+                className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${headerTextColor}`}
+              >
+                {column.title}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className={`divide-y divide-gray-200 dark:divide-slate-700 ${rowBgColor} ${rowTextColor}`}>
+          {data.length === 0 ? (
             <tr>
-              {columns.map(c => (
-                <th key={c.key} className="p-4 text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {c.title}
-                </th>
-              ))}
+              <td colSpan={columns.length} className="px-6 py-4 whitespace-nowrap text-center">
+                Nenhum resultado encontrado.
+              </td>
             </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {data.map((row, i) => (
-              <tr key={i} className="hover:bg-slate-50">
-                {columns.map(c => (
-                  <td key={c.key} className="p-4 text-sm text-slate-700">
-                    {c.render ? c.render(row) : (row[c.key] ?? '')}
+          ) : (
+            data.map((row, rowIndex) => (
+              <tr key={rowIndex} className={rowHoverBgColor}>
+                {columns.map(column => (
+                  <td
+                    key={column.key}
+                    className="px-6 py-4 whitespace-nowrap text-sm"
+                  >
+                    {row[column.key]}
                   </td>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
-  )
+  );
 }

@@ -1,46 +1,34 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import {
-  Dashboard,
-  BarChart,
-  HelpOutline,
-  Search,
-} from '@mui/icons-material';
-import { useLanguage } from '../context/LanguageContext';
+import { Dashboard, BarChart, HelpOutline, Search, Settings } from '@mui/icons-material';
 
-const navItems_pt = [
+const navItems = [
   { name: 'Busca', to: '/search', icon: <Search /> },
   { name: 'Dashboard', to: '/', icon: <Dashboard /> },
   { name: 'Relatórios', to: '/reports', icon: <BarChart /> },
   { name: 'Ajuda', to: '/help', icon: <HelpOutline /> },
-];
-
-const navItems_en = [
-  { name: 'Search', to: '/search', icon: <Search /> },
-  { name: 'Dashboard', to: '/', icon: <Dashboard /> },
-  { name: 'Reports', to: '/reports', icon: <BarChart /> },
-  { name: 'Help', to: '/help', icon: <HelpOutline /> },
+  { name: 'Configurações', to: '/settings', icon: <Settings /> },
 ];
 
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
-  const { language } = useLanguage();
-  const navItems = language === 'en-us' ? navItems_en : navItems_pt;
-
   return (
     <div
       className={`
         ${isSidebarOpen ? 'w-64' : 'w-20'}
-        bg-slate-800 text-white p-4 flex flex-col transition-all duration-300 shadow-md
+        bg-slate-900 text-white p-4 flex-col transition-all duration-300 shadow-xl
         fixed top-0 left-0 h-screen z-40
+        hidden md:flex
       `}
       onMouseEnter={() => setIsSidebarOpen(true)}
       onMouseLeave={() => setIsSidebarOpen(false)}
     >
-      <div className="flex items-center justify-between h-16 mb-4">
-        {isSidebarOpen && (
-          <h1 className="text-xl font-bold">
-            Dash <span className="text-teal-400">App</span>
+      <div className="flex items-center justify-center h-16 mb-8">
+        {isSidebarOpen ? (
+          <h1 className="text-2xl font-bold tracking-wide">
+            Dash
           </h1>
+        ) : (
+          <Dashboard className="text-3xl text-teal-400" />
         )}
       </div>
       <nav className="flex-grow overflow-y-auto">
@@ -52,13 +40,15 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                 end
                 className={({ isActive }) =>
                   `flex items-center gap-4 p-3 rounded-lg transition-colors duration-200
-                  ${isActive ? 'bg-teal-400 text-white shadow-md' : 'text-white hover:bg-slate-700 hover:text-white'}`
+                  ${isActive 
+                    ? 'bg-teal-600 text-white shadow-md' 
+                    : 'text-gray-300 hover:bg-slate-800 hover:text-white'}`
                 }
               >
                 {item.icon}
                 <span
-                  className={`font-medium whitespace-nowrap overflow-hidden
-                  ${isSidebarOpen ? 'block' : 'hidden'}`}
+                  className={`font-medium whitespace-nowrap overflow-hidden transition-opacity duration-300
+                    ${isSidebarOpen ? 'opacity-100 block' : 'opacity-0 hidden'}`}
                 >
                   {item.name}
                 </span>

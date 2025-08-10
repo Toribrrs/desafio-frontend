@@ -16,7 +16,7 @@ export const SearchProvider = ({ children }) => {
     setLoading(true);
     try {
       const data = await searchCdas(params);
-      setSearchResults(data.items); // O backend retorna os resultados dentro de 'items'
+      setSearchResults(data.items); 
     } catch (err) {
       setSearchResults([]);
     } finally {
