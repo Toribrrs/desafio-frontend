@@ -1,6 +1,6 @@
 # Dash App
 
-Este é um projeto de dashboard construído com React para o frontend e um backend (provavelmente em Python, usando FastAPI) para fornecer os dados. O projeto inclui funcionalidades como visualização de relatórios, barra lateral interativa e configurações de sistema.
+Este é um projeto de dashboard construído com React para o frontend e um backend (em Python, usando FastAPI) para fornecer os dados. O projeto inclui funcionalidades como visualização de relatórios, barra lateral interativa e configurações de sistema.
 
 ## Visão Geral do Projeto
 
@@ -92,3 +92,11 @@ Com ambos os servidores (backend e frontend) rodando, você pode acessar a aplic
 -   **Relatórios Interativos**: A página de relatórios exibe gráficos de barra, linha e pizza com animações e tooltips, tornando a visualização de dados mais envolvente.
 -   **Configurações**: Página de Configurações que perfine alternar entre o modo escuro/claro, selecionar notificações do Site, configurar o perfil. 
 -   **Menu de Perfil**: O cabeçalho inclui um ícone de perfil clicável que exibe um menu suspenso com opções como "Editar Perfil" e "Sair".
+- **Página de Busca de CDAs**:  Permite pesquisar dados de CDAs com filtros robustos e funcionalidades avançadas:
+    -- Filtros: Filtre dados por número da CDA, natureza, ano de inscrição inicial e final.
+
+    -- Busca por Clique: A filtragem dos dados na tabela só é aplicada após o clique no botão "Buscar", evitando buscas automáticas a cada alteração.
+
+    -- Ordenação: Classifique os resultados pelo saldo atual de forma crescente ou decrescente.
+
+    -- Exportação CSV: Exporte os dados filtrados para um arquivo CSV com formatação correta para uso em planilhas, garantindo a integridade dos dados numéricos.
